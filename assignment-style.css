@@ -1,0 +1,120 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #0d0d0d, #1a1a1a);
+  color: #f5f5f5;
+  padding: 20px;
+  background-image: url('facultypack/imagefile/debasishdash.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: bgFade 20s infinite alternate ease-in-out;
+}
+
+.container {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 25px;
+  border:1px solid black;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(255, 0, 102, 0.4);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+h1 {
+  text-align: center;
+  color: #ff0066;
+  text-shadow: 0 0 10px rgba(255, 0, 102, 0.8);
+  font-weight: bold;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  animation: slideIn 1.2s ease-out;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input,
+button {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #1f1f1f;
+  color: #f5f5f5;
+  transition: 0.3s ease;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+button {
+  background-color: #ff0066;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 0 12px rgba(255, 0, 102, 0.5);
+}
+
+button:hover {
+  background-color: #e6005c;
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(255, 0, 102, 0.6);
+}
+
+#assignmentList .item {
+  margin-top: 15px;
+  background: rgba(50, 50, 50, 0.7);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 0, 102, 0.2);
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+/* Animations */
+@keyframes bgFade {
+  0% {
+    filter: brightness(0.4);
+  }
+  100% {
+    filter: brightness(0.6);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

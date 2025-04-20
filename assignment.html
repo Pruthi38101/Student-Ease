@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignment Tracker</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #1e1e1e;
+      color: #00ff00;
+      padding: 30px;
+      margin: 0;
+      font-size: 18px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      color: #00ff00;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #2c2c2c;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      border-radius: 8px;
+    }
+    th, td {
+      padding: 16px;
+      border-bottom: 1px solid #444;
+      text-align: center;
+      font-size: 1.2em;
+    }
+    th {
+      background-color: #333;
+      color: #00ff00;
+    }
+    .status {
+      padding: 8px 15px;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1em;
+    }
+    .not-started {
+      background-color: #f44336;
+    }
+    .in-progress {
+      background-color: #ff9800;
+    }
+    .completed {
+      background-color: #4CAF50;
+    }
+    .action-btn {
+      padding: 10px 20px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 1.1em;
+    }
+    .action-btn:hover {
+      background-color: #1976D2;
+    }
+    #addForm, #searchBar {
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    #addForm input, #addForm select, #searchInput {
+      padding: 12px;
+      font-size: 1.1em;
+      border: 1px solid #444;
+      border-radius: 8px;
+      background-color: #333;
+      color: #00ff00;
+    }
+    #addForm input, #addForm select {
+      width: 200px;
+    }
+    #searchInput {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Assignment Tracker</h1>
+
+  <div id="addForm">
+    <input type="text" id="title" placeholder="Title" />
+    <input type="text" id="subject" placeholder="Subject" />
+    <input type="date" id="dueDate" />
+    <select id="status">
+      <option value="not-started">Not Started</option>
+      <option value="in-progress">In Progress</option>
+      <option value="completed">Completed</option>
+    </select>
+    <select id="priority">
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+    </select>
+    <button id="addBtn" class="action-btn">Add Assignment</button>
+  </div>
+
+  <div id="searchBar">
+    <input type="text" id="searchInput" placeholder="Search by title or subject" />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>✅</th>
+        <th>Title</th>
+        <th>Subject</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="assignmentTableBody"></tbody>
+  </table>
+
+  <script>
+    // Load and validate assignments from localStorage
+    let assignments = [];
+    try {
+      const stored = JSON.parse(localStorage.getItem("assignments"));
+      if (Array.isArray(stored)) assignments = stored;
+    } catch (err) {
+      console.warn("Clearing invalid localStorage assignments.");
+      localStorage.removeItem("assignments");
+    }
+
+    const addBtn = document.getElementById("addBtn");
+    const tableBody = document.getElementById("assignmentTableBody");
+    const searchInput = document.getElementById("searchInput");
+
+    function saveAndRender(filter = "") {
+      localStorage.setItem("assignments", JSON.stringify(assignments));
+      renderTable(filter);
+    }
+
+    function renderTable(filter = "") {
+      const q = (filter || "").toLowerCase();
+      tableBody.innerHTML = "";
+      assignments
+        .filter(a => (
+          (a.title || "").toLowerCase().includes(q) ||
+          (a.subject || "").toLowerCase().includes(q)
+        ))
+        .forEach((assignment, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = ` 
+            <td><input type="checkbox" ${assignment.status === "completed" ? "checked" : ""} onchange="toggleStatus(${index}, this.checked)" /></td>
+            <td>${assignment.title || ''}</td>
+            <td>${assignment.subject || ''}</td>
+            <td>${assignment.dueDate || ''}</td>
+            <td><span class="status ${getStatusClass(assignment.status)}">${(assignment.status || '').replace('-', ' ')}</span></td>
+            <td>${assignment.priority || ''}</td>
+            <td><button class="action-btn" onclick="deleteAssignment(${index})">Delete</button></td>
+          `;
+          tableBody.appendChild(row);
+        });
+    }
+
+    function getStatusClass(status) {
+      return { 'not-started':'not-started', 'in-progress':'in-progress', 'completed':'completed' }[status] || '';
+    }
+
+    function deleteAssignment(index) {
+      assignments.splice(index, 1);
+      saveAndRender(searchInput.value);
+    }
+
+    function toggleStatus(index, isChecked) {
+      assignments[index].status = isChecked ? "completed" : "not-started";
+      saveAndRender(searchInput.value);
+    }
+
+    addBtn.addEventListener("click", () => {
+      const titleInput = document.getElementById("title");
+      const subjectInput = document.getElementById("subject");
+      const dueDateInput = document.getElementById("dueDate");
+      const statusSelect = document.getElementById("status");
+      const prioritySelect = document.getElementById("priority");
+
+      if (!titleInput.value || !subjectInput.value || !dueDateInput.value) {
+        alert("Please fill in Title, Subject, and Due Date.");
+        return;
+      }
+
+      assignments.push({
+        title: titleInput.value,
+        subject: subjectInput.value,
+        dueDate: dueDateInput.value,
+        status: statusSelect.value,
+        priority: prioritySelect.value
+      });
+
+      titleInput.value = subjectInput.value = "";
+      dueDateInput.value = "";
+      statusSelect.value = "not-started";
+      prioritySelect.value = "Low";
+
+      saveAndRender(searchInput.value);
+      alert("Assignment added successfully!");
+    });
+
+    searchInput.addEventListener("input", function() {
+      renderTable(this.value);
+    });
+
+    // Initial render
+    renderTable();
+  </script>
+</body>
+</html>
