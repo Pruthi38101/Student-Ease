@@ -1,0 +1,15 @@
+{
+    "assignments": [
+      {
+        "subject": "Math",
+        "dueDate": "2025-04-20",
+        "file": "assignment1.pdf"
+      },
+      {
+        "subject": "English",
+        "dueDate": "2025-04-22",
+        "file": "assignment2.pdf"
+      }
+    ]
+  }
+  

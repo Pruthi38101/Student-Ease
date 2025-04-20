@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <div class="left">
+
+
+      <img src="https://lh3.googleusercontent.com/p/AF1QipO-AmVSR4WIMOvQRpf7OtmRUSvmeYNIsSitHm5n=w408-h531-k-no"
+        alt="Profile" class="profile-pic" onclick="togglePanel()" />
+
+      <div class="overlay" id="overlay" onclick="togglePanel()"></div>
+      <div class="body">
+
+        <div class="floating-panel" id="profilePanel">
+          <p id="panel">Profile Details</p>
+          <span class="close-btn" onclick="togglePanel()">&times;</span>
+          <div class="profile-details">
+            <h2>Pruthiraj Swain</h2>
+            <p><strong>Email: </strong>swainpruthiraj38101@gmail.com</href=></p>
+            <p><strong>College Name: </strong><a href="https://www.gita.edu.in/">Gita Autonomous College , Bhubaneswar</a></p>
+            <p><strong>Department/Branch: </strong>CSIT</p>
+            <p><strong>Roll No:</strong>2307079</p>
+            <p><strong>Phone No:</strong>9124329653</p>
+            <p><strong><a href="https://github.com/Pruthi38101?tab=repositories">GitHub Page</a></strong></p>
+            <p><strong><a href="https://www.linkedin.com/in/pruthiraj-swain-10aa23308?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">LinkDin Page</a></strong></p>
+          </div>
+        </div>
+      </div>
+      <div id="dateTimeBox" class="datetime-box"></div>
+
+    </div>
+    <div class="right">
+      <p style="color:rgb(168, 248, 168);">...StudentEase...</p>
+      <button id="toggleDarkMode" class="toggle-btn">🌙</button>
+
+    </div>
+  </header>
+
+
+  <div class="container">
+    <div class="sidebar">
+      <button onclick="loadContent('assignment/assignment.html')">Assignments</button>
+      <button onclick="loadContent('music-library/index.html')">Music Library</button>
+      <button onclick="loadContent('resume-builder/resume.html')">Resume Builder</button>
+      <button onclick="loadContent('facultypack/facultyindex.html')">Teachers</button>
+      <button onclick="loadContent('exam-tracker/exam.html')">Exam Tracker</button>
+      <button onclick="loadContent('health-tracker/health.html')">Health Tracker</button>
+    </div>
+
+    <div class="content">
+      <iframe id="contentFrame" src="home.html" frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
